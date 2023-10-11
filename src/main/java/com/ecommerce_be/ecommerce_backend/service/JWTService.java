@@ -36,4 +36,7 @@ public class JWTService {
 
     }
 
+    public String getUsername(String token) {
+        return JWT.decode(token).getClaim(USERNAME_KEY).asString();
+    }
 }
