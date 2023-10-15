@@ -39,11 +39,10 @@ public class UserService {
         }
 
         LocalUser user = new LocalUser();
-        user.setUsername(registrationBody.getUsername());
         user.setEmail(registrationBody.getEmail());
+        user.setUsername(registrationBody.getUsername());
         user.setFirstName(registrationBody.getFirstName());
         user.setLastName(registrationBody.getLastName());
-//        TODO:   encrypt passwords
         user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
         VerificationToken verificationToken = createVerificationToken(user);
         emailService.sendVerificationEmail(verificationToken);

@@ -4,6 +4,7 @@ import com.ecommerce_be.ecommerce_backend.exception.EmailFailureException;
 import com.ecommerce_be.ecommerce_backend.model.VerificationToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,10 @@ public class EmailService {
     private String fromAddress;
     @Value("${app.frontend.url}")
     private String url;
-    private JavaMailSender javaMailSender;
+    private JavaMailSender mailSender;
 
-    public EmailService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
     private SimpleMailMessage makeMailMessage() {
@@ -31,11 +32,13 @@ public class EmailService {
         SimpleMailMessage message = makeMailMessage();
         message.setTo(verificationToken.getUser().getEmail());
         message.setSubject("Verify your email to activate your account");
-        message.setTo("Please follow the link below to verify your email and activate your account. \n" +
-                url +  "/auth/verify?token" + verificationToken.getToken());
+        message.setText("Please follow the link below to verify your email and activate your account. \n" +
+                url +  "/auth/verify?token=" + verificationToken.getToken());
+
         try {
-            javaMailSender.send(message);
+            mailSender.send(message);
         } catch (MailException ex) {
+
             throw new EmailFailureException();
         }
     }
