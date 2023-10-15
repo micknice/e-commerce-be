@@ -1,7 +1,6 @@
 package com.ecommerce_be.ecommerce_backend.model.dao;
 
 import com.ecommerce_be.ecommerce_backend.model.LocalUser;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.Optional;
