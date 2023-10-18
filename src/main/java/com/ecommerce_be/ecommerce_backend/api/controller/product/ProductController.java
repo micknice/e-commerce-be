@@ -1,4 +1,4 @@
-package com.ecommerce_be.ecommerce_backend.api.product;
+package com.ecommerce_be.ecommerce_backend.api.controller.product;
 
 import com.ecommerce_be.ecommerce_backend.model.Product;
 import com.ecommerce_be.ecommerce_backend.service.ProductService;
