@@ -5,6 +5,7 @@ import com.ecommerce_be.ecommerce_backend.model.dao.LocalUserDAO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -12,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
  * Class to test the JWTService.
  */
 @SpringBootTest
+@AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class JWTServiceTest {
 
