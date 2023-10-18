@@ -1,4 +1,4 @@
-package com.ecommerce_be.ecommerce_backend.api.controller.auth;
+package com.ecommerce_be.ecommerce_backend.api.controller;
 
 import com.ecommerce_be.ecommerce_backend.api.model.RegistrationBody;
 import com.fasterxml.jackson.core.JsonProcessingException;

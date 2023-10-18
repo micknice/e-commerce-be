@@ -1,4 +1,4 @@
-package com.ecommerce_be.ecommerce_backend.api.order;
+package com.ecommerce_be.ecommerce_backend.api.controller.order;
 
 import com.ecommerce_be.ecommerce_backend.model.LocalUser;
 import com.ecommerce_be.ecommerce_backend.model.WebOrder;
