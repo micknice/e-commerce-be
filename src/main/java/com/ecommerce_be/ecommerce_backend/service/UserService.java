@@ -119,4 +119,8 @@ public class UserService {
             localUserDAO.save(user);
         }
     }
+
+    public boolean userHasPermissionToUser(LocalUser user, Long id) {
+        return user.getId() == id;
+    }
 }
