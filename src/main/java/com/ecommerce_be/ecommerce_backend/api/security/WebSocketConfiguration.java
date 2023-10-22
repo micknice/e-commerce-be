@@ -2,6 +2,7 @@ package com.ecommerce_be.ecommerce_backend.api.security;
 
 import com.ecommerce_be.ecommerce_backend.model.LocalUser;
 import com.ecommerce_be.ecommerce_backend.service.UserService;
+import org.apache.tomcat.util.file.Matcher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -106,21 +107,24 @@ public class WebSocketConfiguration  implements WebSocketMessageBrokerConfigurer
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             if (message.getHeaders().get("simpleMessageType").equals(SimpMessageType.SUBSCRIBE)) {
                 String destination = (String) message.getHeaders().get("simpDestination");
-                Map<String, String> params = MATCHER.extractUriTemplateVariables("/topic/user/{userId}/**", destination);
-                try {
-                    Long userId = Long.valueOf(params.get("userId"));
-                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                    if (authentication != null) {
-                        LocalUser user = (LocalUser) authentication.getPrincipal();
-                        if (!userService.userHasPermissionToUser(user, userId)) {
-                           message = null;
+                String userTopicMatcher = "/topic/user/{userId}/**";
+                if (MATCHER.match(userTopicMatcher, destination)) {
+                    Map<String, String> params = MATCHER.extractUriTemplateVariables(userTopicMatcher, destination);
+                    try {
+                        Long userId = Long.valueOf(params.get("userId"));
+                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                        if (authentication != null) {
+                            LocalUser user = (LocalUser) authentication.getPrincipal();
+                            if (!userService.userHasPermissionToUser(user, userId)) {
+                                message = null;
+                            }
+                        } else {
+                            message = null;
                         }
-                    } else {
+
+                    } catch (NumberFormatException ex) {
                         message = null;
                     }
-
-                } catch (NumberFormatException ex){
-                    message = null;
                 }
             }
             return message;

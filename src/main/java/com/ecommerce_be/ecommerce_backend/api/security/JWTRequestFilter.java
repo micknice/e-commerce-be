@@ -71,7 +71,9 @@ public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInt
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         //messagae contains headers, websocket headers has header - nativeHeaders which is a Map of http headers
-        if (message.getHeaders().get("simpMessageType").equals(SimpMessageType.CONNECT)) {
+        SimpMessageType messageType = (SimpMessageType) message.getHeaders().get("simpMessageType");
+        if (messageType.equals(SimpMessageType.SUBSCRIBE)
+            || messageType.equals(SimpMessageType.MESSAGE)) {
             Map nativeHeaders = (Map) message.getHeaders().get("nativeHeaders");
             //TODO: limit to only CONNECT messages
             if (nativeHeaders != null) {
