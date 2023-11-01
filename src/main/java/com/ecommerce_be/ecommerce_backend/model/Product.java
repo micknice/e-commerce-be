@@ -10,10 +10,10 @@ public class Product {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "short_description", nullable = false)
+    @Column(name = "short_description", nullable = false, length = 1000)
     private String shortDescription;
 
     @Column(name = "long_description")
@@ -25,16 +25,16 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
     private Inventory inventory;
 
-    @Column(name = "category", unique = true)
+    @Column(name = "category")
     private String category;
 
-    @Column(name = "sub_category", unique = true)
+    @Column(name = "sub_category")
     private String sub_category;
 
     @Column(name = "rating")
     private Double rating;
 
-    @Column(name = "img", unique = true, length = 1028)
+    @Column(name = "img",  length = 1028)
     private String img;
 
     public String getImg() {

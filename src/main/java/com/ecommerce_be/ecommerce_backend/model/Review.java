@@ -20,7 +20,7 @@ public class Review {
     private String title;
 
     @Column(name = "rating", nullable = false)
-    private Integer rating;
+    private Double rating;
 
     @Column(name = "body", nullable = false, length = 2054)
     private String body;
@@ -44,11 +44,11 @@ public class Review {
         this.body = body;
     }
 
-    public Integer getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
