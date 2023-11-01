@@ -24,7 +24,9 @@ public class WebSecurityConfig {
         http.addFilterBefore(jwtRequestFilter, AuthorizationFilter.class);
         http.authorizeHttpRequests()
                 //allowed paths w/ no auth
-                .requestMatchers("/product", "/auth/register", "/auth/login", "/auth/verify", "/auth/forgot", "/auth/reset", "/error").permitAll()
+                .requestMatchers("/product", "/product/category/**", "product/subCategory/**", "/auth/register", "/auth/login",
+                        "/auth/verify", "/auth/forgot", "/auth/reset", "/error",
+                        "/websocket", "/websocket/**").permitAll()
                 //paths requiring auth
                 .anyRequest().authenticated();
         return http.build();

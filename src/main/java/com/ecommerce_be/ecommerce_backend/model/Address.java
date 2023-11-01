@@ -14,8 +14,8 @@ public class Address {
     @Column(name = "address_line_1", nullable = false, length = 512)
     private String addressLine1;
 
-    @Column(name = "adddress_line_2", length = 512)
-    private String adddressLine2;
+    @Column(name = "address_line_2", length = 512)
+    private String addressLine2;
 
     @Column(name = "city", nullable = false)
     private String city;
@@ -26,6 +26,17 @@ public class Address {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private LocalUser user;
+
+    @Column(name = "postcode",  length = 30)
+    private String postcode;
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
 
     public LocalUser getUser() {
         return user;
@@ -52,11 +63,11 @@ public class Address {
     }
 
     public String getAdddressLine2() {
-        return adddressLine2;
+        return addressLine2;
     }
 
-    public void setAdddressLine2(String adddressLine2) {
-        this.adddressLine2 = adddressLine2;
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
     }
 
     public String getAddressLine1() {
