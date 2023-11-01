@@ -25,6 +25,50 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
     private Inventory inventory;
 
+    @Column(name = "category", unique = true)
+    private String category;
+
+    @Column(name = "sub_category", unique = true)
+    private String sub_category;
+
+    @Column(name = "rating")
+    private Double rating;
+
+    @Column(name = "img", unique = true, length = 1028)
+    private String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public String getSub_category() {
+        return sub_category;
+    }
+
+    public void setSub_category(String sub_category) {
+        this.sub_category = sub_category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public Inventory getInventory() {
         return inventory;
     }
