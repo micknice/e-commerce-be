@@ -17,7 +17,7 @@ public class LocalUser implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true, length = 1000)
     private String username;
 
     @JsonIgnore
@@ -27,10 +27,10 @@ public class LocalUser implements UserDetails {
     @Column(name = "email", nullable = false, unique = true, length = 320)
     private String email;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, length = 1000)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, length = 1000 )
     private String lastName;
 
     @JsonIgnore
