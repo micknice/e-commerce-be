@@ -20,6 +20,21 @@ public class ProductService {
         return productDAO.findAll();
     }
 
+    public int getCategoryProductCount(String category) {
+        List<Product> products = productDAO.findAll();
+        List<Product> filteredProducts = products.stream()
+                .filter(product -> product.getCategory().equals(category))
+                .collect(Collectors.toList());
+        return filteredProducts.size();
+    }
+    public int getSubCategoryProductCount(String subCategory) {
+        List<Product> products = productDAO.findAll();
+        List<Product> filteredProducts = products.stream()
+                .filter(product -> product.getSub_category().equals(subCategory))
+                .collect(Collectors.toList());
+        return filteredProducts.size();
+    }
+
     public List<Product> getPaginatedProductsByCategory(String category, int page, int items, String sortBy, String orderBy) {
         List<Product> allProducts = productDAO.findAll();
 
