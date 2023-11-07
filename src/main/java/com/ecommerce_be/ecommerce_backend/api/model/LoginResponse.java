@@ -1,9 +1,24 @@
 package com.ecommerce_be.ecommerce_backend.api.model;
 
+import com.ecommerce_be.ecommerce_backend.model.LocalUser;
+
 public class LoginResponse {
 
     private String jwt;
     private boolean success;
+
+    private LocalUser user;
+
+    public LocalUser getUser() {
+        return user;
+    }
+
+    public void setUser(LocalUser user) {
+        this.user = user;
+    }
+
+
+
 
     public boolean isSuccess() {
         return success;
