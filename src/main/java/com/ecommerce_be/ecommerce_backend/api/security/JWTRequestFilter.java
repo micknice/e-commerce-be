@@ -24,17 +24,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Filter for decoding a JWT in the Authorization header and loading the user
+ * object into the authentication context.
+ */
 @Component
-
 public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInterceptor {
 
+    /** The JWT Service. */
     private JWTService jwtService;
+    /** The Local User DAO. */
     private LocalUserDAO localUserDAO;
+
 
     public JWTRequestFilter(JWTService jwtService, LocalUserDAO localUserDAO) {
         this.jwtService = jwtService;
         this.localUserDAO = localUserDAO;
     }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -46,6 +53,7 @@ public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInt
         filterChain.doFilter(request, response);
     }
 
+
     private UsernamePasswordAuthenticationToken checkToken(String token) {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
@@ -55,8 +63,9 @@ public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInt
                 if (opUser.isPresent()) {
                     LocalUser user = opUser.get();
                     if (user.isEmailVerified()) {
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, new ArrayList());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
+                        return authentication;
                     }
                 }
             } catch (JWTDecodeException ex) {
@@ -64,18 +73,16 @@ public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInt
         }
         SecurityContextHolder.getContext().setAuthentication(null);
         return null;
-
     }
 
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-        //messagae contains headers, websocket headers has header - nativeHeaders which is a Map of http headers
-        SimpMessageType messageType = (SimpMessageType) message.getHeaders().get("simpMessageType");
+        SimpMessageType messageType =
+                (SimpMessageType) message.getHeaders().get("simpMessageType");
         if (messageType.equals(SimpMessageType.SUBSCRIBE)
-            || messageType.equals(SimpMessageType.MESSAGE)) {
+                || messageType.equals(SimpMessageType.MESSAGE)) {
             Map nativeHeaders = (Map) message.getHeaders().get("nativeHeaders");
-            //TODO: limit to only CONNECT messages
             if (nativeHeaders != null) {
                 List authTokenList = (List) nativeHeaders.get("Authorization");
                 if (authTokenList != null) {
