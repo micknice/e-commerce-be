@@ -1,6 +1,7 @@
 package com.ecommerce_be.ecommerce_backend.service;
 
 import com.ecommerce_be.ecommerce_backend.api.model.LoginBody;
+import com.ecommerce_be.ecommerce_backend.api.model.LoginResponse;
 import com.ecommerce_be.ecommerce_backend.api.model.PasswordResetBody;
 import com.ecommerce_be.ecommerce_backend.api.model.RegistrationBody;
 import com.ecommerce_be.ecommerce_backend.exception.EmailFailureException;
@@ -60,13 +61,19 @@ public class UserService {
         return verificationToken;
     }
     @Transactional
-    public String loginUser(LoginBody loginBody) throws UserNotVerifiedException, EmailFailureException {
+    public LoginResponse loginUser(LoginBody loginBody) throws UserNotVerifiedException, EmailFailureException {
         Optional<LocalUser> opUser = localUserDAO.findByUsernameIgnoreCase(loginBody.getUsername());
         if (opUser.isPresent()) {
             LocalUser user = opUser.get();
             if (encryptionService.verifyPassword(loginBody.getPassword(), user.getPassword())) {
                 if (user.isEmailVerified()) {
-                    return jwtService.generateJWT(user);
+                    String jwtToken = jwtService.generateJWT(user);
+                    LoginResponse logRes = new LoginResponse();
+                    logRes.setJwt(jwtToken);
+                    logRes.setUser(user);
+
+
+                    return  logRes;
                 } else {
                     List<VerificationToken> verificationTokens = user.getVerificationTokens();
                     boolean resend = verificationTokens.size() == 0 ||

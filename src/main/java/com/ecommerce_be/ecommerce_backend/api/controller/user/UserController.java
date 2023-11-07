@@ -29,7 +29,7 @@ public class UserController {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.userService = userService;
     }
-
+    @CrossOrigin(origins="*")
     @GetMapping("/{userId}/address")
     public ResponseEntity<List<Address>> getAddress(@AuthenticationPrincipal LocalUser user, @PathVariable Long userId) {
         if (!userService.userHasPermissionToUser(user, userId)) {
@@ -37,7 +37,7 @@ public class UserController {
         }
         return ResponseEntity.ok(addressDAO.findByUser_Id(userId));
     }
-
+    @CrossOrigin(origins="*")
     @PutMapping("/{userId}/address")
     public ResponseEntity<Address> putAddress(
             @AuthenticationPrincipal LocalUser user, @PathVariable Long userId,
@@ -54,7 +54,7 @@ public class UserController {
         new DataChange<>(DataChange.ChangeType.INSERT, address);
         return ResponseEntity.ok(savedAddress);
     }
-
+    @CrossOrigin(origins="*")
     @PatchMapping("/{userId}/address/{addressId}")
     public ResponseEntity<Address> patchAddress(
             @AuthenticationPrincipal LocalUser user, @PathVariable Long userId,

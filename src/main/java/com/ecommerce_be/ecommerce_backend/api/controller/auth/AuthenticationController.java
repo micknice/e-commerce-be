@@ -25,10 +25,11 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-
+    @CrossOrigin(origins="*")
     @PostMapping("/register")
     public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
         try {
+            System.out.println(registrationBody);
             userService.registerUser(registrationBody);
             return ResponseEntity.ok().build();
         } catch (UserAlreadyExistsException ex) {
@@ -37,12 +38,16 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+    @CrossOrigin(origins="*")
     @PostMapping("/login")
     public ResponseEntity loginUser(@Valid @RequestBody LoginBody loginBody) {
         String jwt = null;
+        LocalUser authUser = null;
         try {
-            jwt = userService.loginUser(loginBody);
+//            jwt = userService.loginUser(loginBody);
+            LoginResponse logRes = userService.loginUser(loginBody);
+            jwt = logRes.getJwt();
+            authUser = logRes.getUser();
         } catch (UserNotVerifiedException ex) {
             LoginResponse response = new LoginResponse();
             response.setSuccess(false);
@@ -61,14 +66,16 @@ public class AuthenticationController {
             LoginResponse response = new LoginResponse();
             response.setJwt(jwt);
             response.setSuccess(true);
+            response.setUser(authUser);
             return ResponseEntity.ok(response);
         }
     }
+    @CrossOrigin(origins="*")
     @GetMapping("/me")
     public LocalUser getLoggedInUserProfile(@AuthenticationPrincipal LocalUser user) {
         return user;
     }
-
+    @CrossOrigin(origins="*")
     @PostMapping("/verify")
     public ResponseEntity verifyEmail(@RequestParam String token) {
         if (userService.verifyUser(token)) {
@@ -77,7 +84,7 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
-
+    @CrossOrigin(origins="*")
     @PostMapping("/forgot")
     public ResponseEntity forgotPassword(@RequestParam String email) {
         try {
@@ -89,7 +96,7 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+    @CrossOrigin(origins="*")
     @PostMapping("/reset")
     public ResponseEntity resetPassword(@Valid @RequestBody PasswordResetBody body) {
         userService.resetPassword(body);
