@@ -50,8 +50,8 @@ public class UserController {
         refUser.setId(userId);
         address.setUser(refUser);
         Address savedAddress = addressDAO.save(address);
-        simpMessagingTemplate.convertAndSend("/topic/user" + userId + "/address");
-        new DataChange<>(DataChange.ChangeType.INSERT, address);
+        simpMessagingTemplate.convertAndSend("/topic/user/" + userId + "/address",
+                new DataChange<>(DataChange.ChangeType.INSERT, address));
         return ResponseEntity.ok(savedAddress);
     }
     @CrossOrigin(origins="*")
