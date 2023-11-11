@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -128,6 +129,16 @@ public class UserService {
     }
 
     public boolean userHasPermissionToUser(LocalUser user, Long id) {
-        return user.getId() == id;
+//        TODO: below statement returns true if both null is this a problem? possibly. investigate.
+        Long userId = user.getId();
+        if(Objects.equals(userId, id)) {
+            System.out.println(userId);
+            System.out.println(user);
+            System.out.println("TRUUUUUUEEEE!!!!");
+            return true;
+        } else {
+            return false;
+        }
+//        return user.getId() == id;
     }
 }

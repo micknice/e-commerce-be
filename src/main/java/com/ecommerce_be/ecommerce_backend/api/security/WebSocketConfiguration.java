@@ -46,12 +46,15 @@ public class WebSocketConfiguration  implements WebSocketMessageBrokerConfigurer
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/websocket").setAllowedOriginPatterns("**").withSockJS();
+        registry.addEndpoint("/websocket").setAllowedOriginPatterns("**").withSockJS()
+                .setWebSocketEnabled(false);
+//        registry.addEndpoint("/websocket").setAllowedOrigins("http://localhost:3000").withSockJS();
+
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic");
+        registry.enableSimpleBroker("/topic", "/user");
         registry.setApplicationDestinationPrefixes("/app");
     }
 
@@ -83,7 +86,7 @@ public class WebSocketConfiguration  implements WebSocketMessageBrokerConfigurer
     private class RejectClientMessagesOnChannelsChannelInterceptor implements ChannelInterceptor {
 
         private String[] paths = new String[] {
-                "/topic/user/*/address"
+                "/topic/user/*/address", "/user/*/address"
         };
 
         @Override
@@ -105,16 +108,28 @@ public class WebSocketConfiguration  implements WebSocketMessageBrokerConfigurer
         implements ChannelInterceptor {
         @Override
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
-            if (message.getHeaders().get("simpleMessageType").equals(SimpMessageType.SUBSCRIBE)) {
+            System.out.println("line 111!!!");
+            System.out.println(message);
+            System.out.println("line 111!!!");
+//            if (message.getHeaders().get("simpMessageType") != null && message.getHeaders().get("simpleMessageType").equals(SimpMessageType.SUBSCRIBE)) {
+            if (message.getHeaders().get("simpMessageType").equals(SimpMessageType.SUBSCRIBE)) {
                 String destination = (String) message.getHeaders().get("simpDestination");
+                System.out.println("destination line 117!!!");
+                System.out.println(destination);
+                System.out.println("destination line 117!!!");
                 String userTopicMatcher = "/topic/user/{userId}/**";
+//                String userTopicMatcher = "/user/{userId}/**";
                 if (MATCHER.match(userTopicMatcher, destination)) {
                     Map<String, String> params = MATCHER.extractUriTemplateVariables(userTopicMatcher, destination);
                     try {
                         Long userId = Long.valueOf(params.get("userId"));
+                        System.out.println(userId);
+                        System.out.println("user id !!!, line 127");
                         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                         if (authentication != null) {
                             LocalUser user = (LocalUser) authentication.getPrincipal();
+                            System.out.println(user);
+                            System.out.println("user , line 132!!!!");
                             if (!userService.userHasPermissionToUser(user, userId)) {
                                 message = null;
                             }
@@ -126,7 +141,11 @@ public class WebSocketConfiguration  implements WebSocketMessageBrokerConfigurer
                         message = null;
                     }
                 }
+//                return message;
+
             }
+            System.out.println("147 reached");
+            System.out.println(message);
             return message;
         }
     }
