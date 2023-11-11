@@ -4,6 +4,7 @@ import com.ecommerce_be.ecommerce_backend.model.LocalUser;
 import com.ecommerce_be.ecommerce_backend.model.WebOrder;
 import com.ecommerce_be.ecommerce_backend.service.OrderService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @CrossOrigin(origins="*")
     @GetMapping
     public List<WebOrder> getOrders(@AuthenticationPrincipal LocalUser user) {
         return orderService.getOrders(user);
