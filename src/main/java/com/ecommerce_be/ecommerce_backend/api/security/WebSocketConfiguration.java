@@ -111,7 +111,6 @@ public class WebSocketConfiguration  implements WebSocketMessageBrokerConfigurer
             System.out.println("line 111!!!");
             System.out.println(message);
             System.out.println("line 111!!!");
-//            if (message.getHeaders().get("simpMessageType") != null && message.getHeaders().get("simpleMessageType").equals(SimpMessageType.SUBSCRIBE)) {
             if (message.getHeaders().get("simpMessageType").equals(SimpMessageType.SUBSCRIBE)) {
                 String destination = (String) message.getHeaders().get("simpDestination");
                 System.out.println("destination line 117!!!");
@@ -144,8 +143,6 @@ public class WebSocketConfiguration  implements WebSocketMessageBrokerConfigurer
 //                return message;
 
             }
-            System.out.println("147 reached");
-            System.out.println(message);
             return message;
         }
     }
