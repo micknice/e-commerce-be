@@ -31,9 +31,7 @@ import java.util.Optional;
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInterceptor {
 
-    /** The JWT Service. */
     private JWTService jwtService;
-    /** The Local User DAO. */
     private LocalUserDAO localUserDAO;
 
 
