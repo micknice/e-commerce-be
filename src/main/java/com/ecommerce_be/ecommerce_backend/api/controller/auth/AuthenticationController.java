@@ -73,7 +73,6 @@ public class AuthenticationController {
     @CrossOrigin(origins="*")
     @GetMapping("/me")
     public LocalUser getLoggedInUserProfile(@AuthenticationPrincipal LocalUser user) {
-
         return user;
     }
     @CrossOrigin(origins="*")
