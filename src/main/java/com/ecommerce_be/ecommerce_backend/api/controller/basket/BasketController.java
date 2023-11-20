@@ -47,7 +47,6 @@ public class BasketController {
             @AuthenticationPrincipal LocalUser user,
             @PathVariable Long userId,
             @PathVariable Long productId) {
-        System.out.println("user" + user);
         if (!userService.userHasPermissionToUser(user, userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -58,8 +57,27 @@ public class BasketController {
             return ResponseEntity.ok(String.valueOf(newBasket));
         }
         String newItem = String.valueOf(productId);
-        Basket updatedBasket = basketService.updateBasket(Math.toIntExact(userId), newItem);
-        return ResponseEntity.ok("");
+        Basket updatedBasket = basketService.updateBasketAdd(Math.toIntExact(userId), newItem);
+        return ResponseEntity.ok(updatedBasket.getItems());
+    }
+
+    @CrossOrigin(origins="*")
+    @PatchMapping("/{userId}/itemRemove/{productId}")
+    public ResponseEntity<String> patchBasketRemove(
+            @AuthenticationPrincipal LocalUser user,
+            @PathVariable Long userId,
+            @PathVariable Long productId) {
+        System.out.println("user" + user);
+        if (!userService.userHasPermissionToUser(user, userId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        String basketItems = basketService.getBasketByUserId(Math.toIntExact(userId));
+        if (basketItems == null) {
+            return ResponseEntity.ok("");
+        }
+        String newItem = String.valueOf(productId);
+        Basket updatedBasket = basketService.updateBasketRemove(Math.toIntExact(userId), newItem);
+        return ResponseEntity.ok(updatedBasket.getItems());
     }
 
 
