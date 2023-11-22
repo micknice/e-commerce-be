@@ -30,14 +30,25 @@ public class BasketService {
     public Basket updateBasketAdd(Integer userId, String newBasketItems) {
         Basket basket = basketDAO.findByUser_id(userId);
         String basketItems = basket.getItems();
-        basket.setItems(basketItems + ',' + newBasketItems);
+        if (basketItems == "" || basketItems == null) {
+            basket.setItems(newBasketItems);
+            return basketDAO.save(basket);
+        }
+        basket.setItems(basketItems + "," + newBasketItems);
         return basketDAO.save(basket);
-    }public Basket updateBasketRemove(Integer userId, String itemToRemove) {
+    }
+    public Basket updateBasketRemove(Integer userId, String itemToRemove) {
         Basket basket = basketDAO.findByUser_id(userId);
         String basketItems = basket.getItems();
         String newBasketItems = removeNumberFromString(basketItems, Integer.parseInt(itemToRemove));
         basket.setItems(newBasketItems);
         return basketDAO.save(basket);
+    }
+
+    public void updateBasketEmpty(Integer userId) {
+        Basket basket = basketDAO.findByUser_id(userId);
+        if (basket != null) basketDAO.delete(basket);
+
     }
 
     private String removeNumberFromString(String inputStr, int numberToRemove) {
