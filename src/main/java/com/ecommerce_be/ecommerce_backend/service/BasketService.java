@@ -40,9 +40,15 @@ public class BasketService {
     public Basket updateBasketRemove(Integer userId, String itemToRemove) {
         Basket basket = basketDAO.findByUser_id(userId);
         String basketItems = basket.getItems();
-        String newBasketItems = removeNumberFromString(basketItems, Integer.parseInt(itemToRemove));
-        basket.setItems(newBasketItems);
-        return basketDAO.save(basket);
+        if (basketItems.contains(",")) {
+            String newBasketItems = removeNumberFromString(basketItems, Integer.parseInt(itemToRemove));
+            basket.setItems(newBasketItems);
+            return basketDAO.save(basket);
+        } else {
+            basketDAO.delete(basket);
+            return null;
+        }
+
     }
 
     public void updateBasketEmpty(Integer userId) {
