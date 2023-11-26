@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers("/product", "/product/category/**", "product/category/*/subCategory/**", "product/id/**",
                             "/review/*", "/review/*/user/*", "/basket", "/basket/**","/basket/*/itemAdd/**", "/basket/*/itemRemove/**", "/basket/*/emptyBasket",
-                            "/auth/register", "/auth/login", "/auth/verify", "/auth/forgot", "/auth/me",
+                            "/auth/register", "/auth/login", "/auth/verify", "/auth/forgot/**","/auth/forgot/*", "/auth/forgot", "/auth/me",
                             "/auth/reset", "/error", "/websocket", "/websocket/**").permitAll().anyRequest().authenticated();
 //                    request.requestMatchers("/users")
 //                            .hasAnyAuthority("USER", "ADMIN");

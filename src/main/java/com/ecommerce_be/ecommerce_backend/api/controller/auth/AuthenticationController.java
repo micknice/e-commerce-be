@@ -1,9 +1,6 @@
 package com.ecommerce_be.ecommerce_backend.api.controller.auth;
 
-import com.ecommerce_be.ecommerce_backend.api.model.LoginBody;
-import com.ecommerce_be.ecommerce_backend.api.model.LoginResponse;
-import com.ecommerce_be.ecommerce_backend.api.model.PasswordResetBody;
-import com.ecommerce_be.ecommerce_backend.api.model.RegistrationBody;
+import com.ecommerce_be.ecommerce_backend.api.model.*;
 import com.ecommerce_be.ecommerce_backend.exception.EmailFailureException;
 import com.ecommerce_be.ecommerce_backend.exception.EmailNotFoundException;
 import com.ecommerce_be.ecommerce_backend.exception.UserAlreadyExistsException;
@@ -15,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/auth")
@@ -86,7 +85,9 @@ public class AuthenticationController {
     }
     @CrossOrigin(origins="*")
     @PostMapping("/forgot")
-    public ResponseEntity forgotPassword(@RequestParam String email) {
+    public ResponseEntity forgotPassword(@RequestBody ForgotBody reqBody) {
+        String email = reqBody.getEmail();
+        System.out.println(email);
         try {
             userService.forgotPassword(email);
             return ResponseEntity.ok().build();
