@@ -68,12 +68,13 @@ public class ProductService {
     }
 
     public List<Product> getPaginatedProductsBySubCategory(String subCategory, int page, int items, String sortBy, String orderBy) {
-        List<Product> allProducts = productDAO.findAll();
+//        List<Product> allProducts = productDAO.findAll();
+        List<Product> filteredProducts = productDAO.findBySubCategory(subCategory);
 
-        // filter by category
-        List<Product> filteredProducts = allProducts.stream()
-                .filter(product -> product.getSub_category().equals(subCategory))
-                .collect(Collectors.toList());
+//        // filter by category
+//        List<Product> filteredProducts = allProducts.stream()
+//                .filter(product -> product.getSub_category().equals(subCategory))
+//                .collect(Collectors.toList());
 
         // sort by sortBy param
         Comparator<Product> comparator = null;
