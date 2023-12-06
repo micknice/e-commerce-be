@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
 
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {

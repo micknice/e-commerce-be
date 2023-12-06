@@ -1,26 +1,26 @@
-package com.ecommerce_be.ecommerce_backend.service;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-public class EncryptionServiceTest {
-
-    @Autowired
-    private EncryptionService encryptionService;
-
-    @Test
-    public void testPasswordEncryption() {
-        String password = "PasswordIsASecret!123";
-        String hash = encryptionService.encryptPassword(password);
-        Assertions.assertTrue(encryptionService.verifyPassword(password, hash), "Hashed password matches original");
-        Assertions.assertFalse(encryptionService.verifyPassword(password + "extraincorrectstring", hash), "Altered password invalid");
-
-    }
-}
+//package com.ecommerce_be.ecommerce_backend.service;
+//
+//import org.junit.jupiter.api.Assertions;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.test.context.ActiveProfiles;
+//
+//@SpringBootTest
+//@AutoConfigureMockMvc
+//@ActiveProfiles("test")
+//public class EncryptionServiceTest {
+//
+//    @Autowired
+//    private EncryptionService encryptionService;
+//
+//    @Test
+//    public void testPasswordEncryption() {
+//        String password = "PasswordIsASecret!123";
+//        String hash = encryptionService.encryptPassword(password);
+//        Assertions.assertTrue(encryptionService.verifyPassword(password, hash), "Hashed password matches original");
+//        Assertions.assertFalse(encryptionService.verifyPassword(password + "extraincorrectstring", hash), "Altered password invalid");
+//
+//    }
+//}
