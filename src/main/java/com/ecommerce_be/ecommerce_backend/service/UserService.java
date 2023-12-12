@@ -59,6 +59,8 @@ public class UserService {
         verificationToken.setCreatedTimeStamp(new Timestamp(System.currentTimeMillis()));
         verificationToken.setUser(user);
         user.getVerificationTokens().add(verificationToken);
+        //the below line has been inserted to fix the apparent non write of v tokens on verification may break things
+//        verificationTokenDAO.save(verificationToken);
         return verificationToken;
     }
     @Transactional
