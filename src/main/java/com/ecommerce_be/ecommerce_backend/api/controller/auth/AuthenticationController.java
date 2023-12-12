@@ -28,6 +28,7 @@ public class AuthenticationController {
     @CrossOrigin(origins="*")
     @PostMapping("/register")
     public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
+        System.out.println(registrationBody);
         try {
             System.out.println(registrationBody);
             userService.registerUser(registrationBody);
